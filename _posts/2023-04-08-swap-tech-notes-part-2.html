@@ -89,7 +89,7 @@ modified_time: '2023-05-01'
                         _isConsumed: false,
                         _lockedUntil: 1000 
                     };
-                    await contract.safeMint(owner, customMetadata, "https://gelassen.github.io/blog/");
+                    await contract.safeMint(owner, customMetadata, "https://gelassen.github.io/");
             
                     await expect(await contract.balanceOf(owner)).to.be.equal(1);
                 });
@@ -199,7 +199,7 @@ modified_time: '2023-05-01'
             important corner cases plus 'test per found bug'. <br><br> 
 
             For more details you could check the <a href="https://github.com/Gelassen/swap">source code</a>. Part 1 of this 
-            seria is available by <a href="https://gelassen.github.io/blog/2023/04/02/swap-tech-notes-part-1.html">link</a>. 
+            seria is available by <a href="https://gelassen.github.io/2023/04/02/swap-tech-notes-part-1.html">link</a>. 
 
             Next publications in this seria will cover backend & frontend and 
             their test coverage, project deployment automatization.

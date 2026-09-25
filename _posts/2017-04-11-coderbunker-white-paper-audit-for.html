@@ -3,11 +3,307 @@ layout: post
 title: 'Coderbunker white paper: audit for mobile startup in fashion domain'
 date: '2017-04-11T03:41:00.004-07:00'
 author: Gelassen
-tags: 
+tags:
 modified_time: '2017-04-11T03:48:42.134-07:00'
 thumbnail: https://3.bp.blogspot.com/-pmt9LGvKKTU/WOy0TgYECtI/AAAAAAAAAeE/xZ-et7enq9YWfnwHODE6mWdwIzQ_s2LyQCLcB/s72-c/2017-04-11_18-45-35.png
 blogger_id: tag:blogger.com,1999:blog-1786074324321819374.post-6968717186268960451
 blogger_orig_url: https://dmitrykazakov.blogspot.com/2017/04/coderbunker-white-paper-audit-for.html
 ---
 
-<div dir="ltr" style="text-align: left;" trbidi="on"><h3 style="text-align: left;">Executive summary</h3><br />This case study shows how CoderBunker can help with engineering resources on demand, empowered existing team with necessary skills, discovered missed critical issues before launch and help with strategy that better fit client situation.<br /><br />After analysed initial requirements to build local team here, balance pros &amp; cons we transformed initial intent into a better way to help our client by providing code review to spot all missed issues before launch as time to market is a critical here.<br /><br />By having higher level of expertise CoderBunker was able to spot critical issues in existing app with impact on UI\UX and performance. In total there were 40+ issues and 100+ change request in application codebase.<br /><br />Discovered issues changed plans of our client and CoderBunker offered his expertise to come up with list of possible options and measure pros &amp; cons each of them to help with strategy of app run and growth.<br /><br />Finally, CoderBunker offered a set of steps to improve existing workflow and introduce people from their network who might be helpful for our customer.<br /><br /><h3 style="text-align: left;">About client</h3><br />Our client is a woman community with existing co-working and co-living projects in China. Now they started another startup with a beautiful idea behind it: help each other to find new clothes and share their own.<br /><br />Their intent to help people make their lives better and they believe their app will do this by letting people share clothes with each other instead of endlessly renew their wardrobe by buying new brands from shops.<br /><br /><h3 style="text-align: left;">Problem</h3><br />Our client has a vendor who develop for them application and wants to move development to Shanghai from distributed team headed from Australia. They are happy with their work, management and progress so far, but want to have more control on development and more engaged employees for their project.<br /><br />They faced with issues to find engineers as it is not easy here, especially when you would like to find someone for part time now and convert them full time later. Another issue is a budget which is quite limited for startups of this level without guarantee in future.<br /><br /><h3 style="text-align: left;">Possible options</h3><br />There are several options how CoderBunker might help there:<br /><br />&nbsp;&nbsp;&nbsp; CoderBunker can help to find and train engineers or transfer development to their team<br /><br />&nbsp;&nbsp;&nbsp; consider empower existing team with new people from Shanghai office (hybrid team)<br /><br />&nbsp;&nbsp;&nbsp; leave development to existing team with temporal help from CoderBunker experts<br /><br />Considering budget there is no talents on local market who might have a good match with client needs. Also there is a risk to find not a right person on the market. Considering this and full satisfaction with work they have so far from current vendor, it would be good to continue work with existing team till the launch.<br /><br />Client has agreement with vendor to deliver current project with fixed budget. It looks wise to continue work with existing team and don’t increase the cost where cash is limited. Especially when you are happy with results you got from the team work. The only concern we might have there is code quality and it reasonable to perform code review and look for options to improve existing process.<br /><br /><h3 style="text-align: left;">Implementation</h3><br />Business goals in software development are delivered features, UI/UX experience and cost of development in short and in long run (demand by users or clients is out of scope here)<br /><br />That’s why code quality metrics are chosen and ranged from by importance for the business:<br /><br />Below is non exhaustive list of issues ranged by priority<br /><br /><ul style="text-align: left;"><li>&nbsp;&nbsp;&nbsp; Crashes</li><li>&nbsp;&nbsp;&nbsp; Verifying app stability on supported platforms</li><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Android smartphones since OS version 4.1, 5.0, 6.0, 7.0</li><li>&nbsp;&nbsp;&nbsp; Architecture of the application</li><li>&nbsp;&nbsp;&nbsp; Performance issues</li><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Smooth scroll and animation on all UI elements for maximum possible amount of items</li><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Reports with applied Strict mode rules (main thread work)</li><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Overdraw issues</li><li>&nbsp;&nbsp;&nbsp; Memory consumption</li><li>&nbsp;&nbsp;&nbsp; Memory leaks</li><li>&nbsp;&nbsp;&nbsp; Reports from static analysis tools</li></ul><br />In general, good design of application is design that allows faster implement new features or modify existing ones.<br /><br />The process of audit has several steps.<br /><br />Firstly, application is tested on emulators with variety of screen sizes, memory size and OS versions. It goes through all major scenarios with enabled/disabled network to check general stability of the application and UI/UX flaws.<br /><br />​Secondly, application is tested for performance issues. For this aim app is run with enabled StrictMode and UI overdraw feature on low budget device to spot flaws with UI/UX of the app. Optionally for list elements is tested with large amount of data to spot issues with scroll.<br /><br />Thirdly, application is tested on memory leaks with applied tools like LeakCanary and MAT.<br /><br />Later on github in special branch all commits since the beginning were reviewed. The general list of issues to look for is lack of this points:<br /><br /><ul style="text-align: left;"><li>&nbsp;&nbsp;&nbsp; Properly chosen abstractions</li><li>&nbsp;&nbsp;&nbsp; Properly separated layers and responsibilities of classes</li><li>&nbsp;&nbsp;&nbsp; Readability of the code</li><ul><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Well chosen names of classes and methods</li><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Short length of methods</li><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; One line - one operation policy</li><li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; No more than two idetantation</li></ul><li>&nbsp;&nbsp;&nbsp; No hardcoded dimensions and adjusted dimensions to screen</li><li>&nbsp;&nbsp;&nbsp; All strings moved to strings.xml and localised to supported languages</li><li>&nbsp;&nbsp;&nbsp; Code covered with tests or written to support tests</li></ul><br />Finally, app quality is verified with code static analysis tools like lint, FindBug, PMD and Checkstyle.<br /><br /><h3 style="text-align: left;">Benefits</h3><br />Code review helped our client to discover:<br /><br /><ul style="text-align: left;"><a href="https://www.blogger.com/blogger.g?blogID=1786074324321819374" imageanchor="1" style="clear: right; float: right; margin-bottom: 1em; margin-left: 1em;"></a><li>&nbsp;&nbsp;&nbsp; Few crashes on dev version</li><li>&nbsp;&nbsp;&nbsp; UI/UX issues on devices out of scope existing app</li><li>&nbsp;&nbsp;&nbsp; App has issues with localisation and wasn’t design with intent to support others languages</li><li>&nbsp;&nbsp;&nbsp; Few memory leaks were spotted before run into productions</li><li>&nbsp;&nbsp;&nbsp; Lack of tests and serious design issues in architecture which will increase cost of development in future</li><li>&nbsp;&nbsp;&nbsp; Static analysers shows thousands of issues; not critical but still valuable for total app quality</li><li>&nbsp;&nbsp;&nbsp; In total final report contains 40+ issues and 100+ request for changes in code</li></ul><br />Audit helps to understand areas of improvement for application, discover business critical flaws to mitigate them before launch, prioritize backlog and budget for development. It is especially valuable when app has not finished yet and client have time to apply all new changes.<br /><br />In business terms situation with project can be described likes this<br /><div class="separator" style="clear: both; text-align: center;"><a href="https://www.blogger.com/blogger.g?blogID=1786074324321819374" imageanchor="1" style="clear: right; float: right; margin-bottom: 1em; margin-left: 1em;"></a><a href="https://www.blogger.com/blogger.g?blogID=1786074324321819374" imageanchor="1" style="clear: right; float: right; margin-bottom: 1em; margin-left: 1em;"></a><a href="https://www.blogger.com/blogger.g?blogID=1786074324321819374" imageanchor="1" style="clear: right; float: right; margin-bottom: 1em; margin-left: 1em;"></a><a href="https://3.bp.blogspot.com/-pmt9LGvKKTU/WOy0TgYECtI/AAAAAAAAAeE/xZ-et7enq9YWfnwHODE6mWdwIzQ_s2LyQCLcB/s1600/2017-04-11_18-45-35.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="153" src="https://3.bp.blogspot.com/-pmt9LGvKKTU/WOy0TgYECtI/AAAAAAAAAeE/xZ-et7enq9YWfnwHODE6mWdwIzQ_s2LyQCLcB/s640/2017-04-11_18-45-35.png" width="640" /></a></div><br /><br /><br />Issue with UI/UX which our client wasn’t aware of due lack of tests on all model will miss user expectations and lead to lack of interest from their side.<br /><br />Issue with high cost of maintenance caused by poor design where each new feature will take more time to implement and caused more bugs to fix in existing app.<br /><br />After review situation with project state become clear and we came up with several options to go further:<br /><br /><ul style="text-align: left;"><li>&nbsp;&nbsp;&nbsp; Apply all recommendation will solve existing issues, but it will take significant efforts from existing vendor team who works on this project as fixed price -- this option might face with reluctancy from vendor to work further</li><li>&nbsp;&nbsp;&nbsp; Reduce the scope of features till the most valuable for the market and apply recommendations to this scope.</li><li>&nbsp;&nbsp;&nbsp; Apply proposals to solve issue related to critical functions such as UI/UX and postpone with others</li><li>&nbsp;&nbsp;&nbsp; Negotiate with vendor additional budget for the scope to cover refactoring if they found it as extra efforts</li></ul><br />We go through this options, balance pros &amp; cons in short and long run. For startups the top priority is to test idea and see feedback from the market, it is important to reduce time to market and validate assumptions. That’s why investment ahead in features which weren’t validated yet, might be not efficient way utilise existing resources. In case there is no way to apply all proposals, option to focus on UI/UX scope and postpone with scope of issues related to reducing the cost of maintenance is more beneficial approach.<br /><br />After review and discussion our client becomes able to prioritise where they have to commit more efforts and how better utilise existing budget.<br /><br />In addition to code review our client get nine proposals to improve their process with impact on issue management, code quality and preventing rising up of difficult issues in future.<br /><br />Also we introduced our client to few persons who might be helpful for them in running their business by sharing their knowledge, contacts and expertise.<br /><br />Prepared for our company <a href="http://www.coderbunker.com/blog/coderbunker-white-paper-audit-for-mobile-startup-in-fashion-dom">blog</a></div>
+<div dir="ltr" style="text-align: left;" trbidi="on">
+
+  <h3 style="text-align: left;">Executive summary</h3>
+
+  <p>
+    This case study shows how CoderBunker can help with engineering resources
+    on demand, empowered existing team with necessary skills, discovered missed
+    critical issues before launch and help with strategy that better fit client
+    situation.
+  </p>
+
+  <p>
+    After analysed initial requirements to build local team here, balance pros
+    &amp; cons we transformed initial intent into a better way to help our client
+    by providing code review to spot all missed issues before launch as time to
+    market is a critical here.
+  </p>
+
+  <p>
+    By having higher level of expertise CoderBunker was able to spot critical
+    issues in existing app with impact on UI\UX and performance. In total there
+    were 40+ issues and 100+ change request in application codebase.
+  </p>
+
+  <p>
+    Discovered issues changed plans of our client and CoderBunker offered his
+    expertise to come up with list of possible options and measure pros &amp;
+    cons each of them to help with strategy of app run and growth.
+  </p>
+
+  <p>
+    Finally, CoderBunker offered a set of steps to improve existing workflow
+    and introduce people from their network who might be helpful for our
+    customer.
+  </p>
+
+  <h3 style="text-align: left;">About client</h3>
+
+  <p>
+    Our client is a woman community with existing co-working and co-living
+    projects in China. Now they started another startup with a beautiful idea
+    behind it: help each other to find new clothes and share their own.
+  </p>
+
+  <p>
+    Their intent to help people make their lives better and they believe their
+    app will do this by letting people share clothes with each other instead of
+    endlessly renew their wardrobe by buying new brands from shops.
+  </p>
+
+  <h3 style="text-align: left;">Problem</h3>
+
+  <p>
+    Our client has a vendor who develop for them application and wants to move
+    development to Shanghai from distributed team headed from Australia. They
+    are happy with their work, management and progress so far, but want to have
+    more control on development and more engaged employees for their project.
+  </p>
+
+  <p>
+    They faced with issues to find engineers as it is not easy here, especially
+    when you would like to find someone for part time now and convert them full
+    time later. Another issue is a budget which is quite limited for startups
+    of this level without guarantee in future.
+  </p>
+
+  <h3 style="text-align: left;">Possible options</h3>
+
+  <p>There are several options how CoderBunker might help there:</p>
+
+  <ul style="text-align: left;">
+    <li>CoderBunker can help to find and train engineers or transfer development to their team</li>
+    <li>consider empower existing team with new people from Shanghai office (hybrid team)</li>
+    <li>leave development to existing team with temporal help from CoderBunker experts</li>
+  </ul>
+
+  <p>
+    Considering budget there is no talents on local market who might have a good
+    match with client needs. Also there is a risk to find not a right person on
+    the market. Considering this and full satisfaction with work they have so
+    far from current vendor, it would be good to continue work with existing
+    team till the launch.
+  </p>
+
+  <p>
+    Client has agreement with vendor to deliver current project with fixed
+    budget. It looks wise to continue work with existing team and don’t increase
+    the cost where cash is limited. Especially when you are happy with results
+    you got from the team work. The only concern we might have there is code
+    quality and it reasonable to perform code review and look for options to
+    improve existing process.
+  </p>
+
+  <h3 style="text-align: left;">Implementation</h3>
+
+  <p>
+    Business goals in software development are delivered features, UI/UX
+    experience and cost of development in short and in long run (demand by users
+    or clients is out of scope here)
+  </p>
+
+  <p>
+    That’s why code quality metrics are chosen and ranged from by importance
+    for the business:
+  </p>
+
+  <p>Below is non exhaustive list of issues ranged by priority</p>
+
+  <ul style="text-align: left;">
+    <li>Crashes</li>
+    <li>
+      Verifying app stability on supported platforms
+      <ul>
+        <li>Android smartphones since OS version 4.1, 5.0, 6.0, 7.0</li>
+      </ul>
+    </li>
+    <li>Architecture of the application</li>
+    <li>
+      Performance issues
+      <ul>
+        <li>Smooth scroll and animation on all UI elements for maximum possible amount of items</li>
+        <li>Reports with applied Strict mode rules (main thread work)</li>
+        <li>Overdraw issues</li>
+      </ul>
+    </li>
+    <li>Memory consumption</li>
+    <li>Memory leaks</li>
+    <li>Reports from static analysis tools</li>
+  </ul>
+
+  <p>
+    In general, good design of application is design that allows faster
+    implement new features or modify existing ones.
+  </p>
+
+  <p>The process of audit has several steps.</p>
+
+  <p>
+    Firstly, application is tested on emulators with variety of screen sizes,
+    memory size and OS versions. It goes through all major scenarios with
+    enabled/disabled network to check general stability of the application and
+    UI/UX flaws.
+  </p>
+
+  <p>
+    ​Secondly, application is tested for performance issues. For this aim app is
+    run with enabled StrictMode and UI overdraw feature on low budget device to
+    spot flaws with UI/UX of the app. Optionally for list elements is tested
+    with large amount of data to spot issues with scroll.
+  </p>
+
+  <p>
+    Thirdly, application is tested on memory leaks with applied tools like
+    LeakCanary and MAT.
+  </p>
+
+  <p>
+    Later on github in special branch all commits since the beginning were
+    reviewed. The general list of issues to look for is lack of this points:
+  </p>
+
+  <ul style="text-align: left;">
+    <li>Properly chosen abstractions</li>
+    <li>Properly separated layers and responsibilities of classes</li>
+    <li>
+      Readability of the code
+      <ul>
+        <li>Well chosen names of classes and methods</li>
+        <li>Short length of methods</li>
+        <li>One line - one operation policy</li>
+        <li>No more than two idetantation</li>
+      </ul>
+    </li>
+    <li>No hardcoded dimensions and adjusted dimensions to screen</li>
+    <li>All strings moved to strings.xml and localised to supported languages</li>
+    <li>Code covered with tests or written to support tests</li>
+  </ul>
+
+  <p>
+    Finally, app quality is verified with code static analysis tools like lint,
+    FindBug, PMD and Checkstyle.
+  </p>
+
+  <h3 style="text-align: left;">Benefits</h3>
+
+  <p>Code review helped our client to discover:</p>
+
+  <ul style="text-align: left;">
+    <li>Few crashes on dev version</li>
+    <li>UI/UX issues on devices out of scope existing app</li>
+    <li>App has issues with localisation and wasn’t design with intent to support others languages</li>
+    <li>Few memory leaks were spotted before run into productions</li>
+    <li>Lack of tests and serious design issues in architecture which will increase cost of development in future</li>
+    <li>Static analysers shows thousands of issues; not critical but still valuable for total app quality</li>
+    <li>In total final report contains 40+ issues and 100+ request for changes in code</li>
+  </ul>
+
+  <p>
+    Audit helps to understand areas of improvement for application, discover
+    business critical flaws to mitigate them before launch, prioritize backlog
+    and budget for development. It is especially valuable when app has not
+    finished yet and client have time to apply all new changes.
+  </p>
+
+  <p>
+    In business terms situation with project can be described likes this
+  </p>
+
+  <div class="separator" style="clear: both; text-align: center;">
+    <a
+      href="https://3.bp.blogspot.com/-pmt9LGvKKTU/WOy0TgYECtI/AAAAAAAAAeE/xZ-et7enq9YWfnwHODE6mWdwIzQ_s2LyQCLcB/s1600/2017-04-11_18-45-35.png"
+      imageanchor="1"
+      style="margin-left: 1em; margin-right: 1em;"
+    >
+      <img
+        border="0"
+        height="153"
+        src="https://3.bp.blogspot.com/-pmt9LGvKKTU/WOy0TgYECtI/AAAAAAAAAeE/xZ-et7enq9YWfnwHODE6mWdwIzQ_s2LyQCLcB/s640/2017-04-11_18-45-35.png"
+        width="640"
+      />
+    </a>
+  </div>
+
+  <p>
+    Issue with UI/UX which our client wasn’t aware of due lack of tests on all
+    model will miss user expectations and lead to lack of interest from their
+    side.
+  </p>
+
+  <p>
+    Issue with high cost of maintenance caused by poor design where each new
+    feature will take more time to implement and caused more bugs to fix in
+    existing app.
+  </p>
+
+  <p>
+    After review situation with project state become clear and we came up with
+    several options to go further:
+  </p>
+
+  <ul style="text-align: left;">
+    <li>
+      Apply all recommendation will solve existing issues, but it will take
+      significant efforts from existing vendor team who works on this project
+      as fixed price -- this option might face with reluctancy from vendor to
+      work further
+    </li>
+    <li>
+      Reduce the scope of features till the most valuable for the market and
+      apply recommendations to this scope.
+    </li>
+    <li>
+      Apply proposals to solve issue related to critical functions such as
+      UI/UX and postpone with others
+    </li>
+    <li>
+      Negotiate with vendor additional budget for the scope to cover refactoring
+      if they found it as extra efforts
+    </li>
+  </ul>
+
+  <p>
+    We go through this options, balance pros &amp; cons in short and long run.
+    For startups the top priority is to test idea and see feedback from the
+    market, it is important to reduce time to market and validate assumptions.
+    That’s why investment ahead in features which weren’t validated yet, might
+    be not efficient way utilise existing resources. In case there is no way to
+    apply all proposals, option to focus on UI/UX scope and postpone with scope
+    of issues related to reducing the cost of maintenance is more beneficial
+    approach.
+  </p>
+
+  <p>
+    After review and discussion our client becomes able to prioritise where they
+    have to commit more efforts and how better utilise existing budget.
+  </p>
+
+  <p>
+    In addition to code review our client get nine proposals to improve their
+    process with impact on issue management, code quality and preventing rising
+    up of difficult issues in future.
+  </p>
+
+  <p>
+    Also we introduced our client to few persons who might be helpful for them
+    in running their business by sharing their knowledge, contacts and
+    expertise.
+  </p>
+
+  <p>
+    Prepared for our company
+    <a href="http://www.coderbunker.com/blog/coderbunker-white-paper-audit-for-mobile-startup-in-fashion-dom">
+      blog
+    </a>
+  </p>
+
+</div>
