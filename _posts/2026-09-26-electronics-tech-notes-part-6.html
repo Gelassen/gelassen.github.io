@@ -1,5 +1,4 @@
 ---
-
 layout: post
 title: 'Electronics tech notes, part 6: design a protective cascade for connecting the onboard computer to the drone'
 date: '2026-09-12'
@@ -9,199 +8,165 @@ modified_time: '2026-09-26'
 ---
 
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href=".css/general.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href=".css/general.css">
 </head>
 
 <body>
-    <article>
-        <section>
-            <h3>Executive summary</h3>
-            <p>
-                During past week I had designed a protective cascade for connecting 
-                the onboard computer to the drone. 
-            </p>
-            <p>
-                The next version of my custom drone requires an onboard 
-                computer and it should be a part of the rest of electronics.
-                Different parts of electronics which are not intended to work 
-                together by manufacturer requires additional parts to protect 
-                them from malfunctioning. This custom pcb solves exactly this 
-                problem.  
-            </p>
-            <p>
-                This is a not a sophisticated pcb, but this is my first 
-                experience *designing* it to bridge the gap 
-                between projects needs and lack of market capability to fullfil 
-                this needs. That's why the production chain and technological 
-                process uncovered here may be of value to my potential clients. 
-            </p>
-            <p align="center">
-                <img src="/assets/images/2026-09-26/pcb-3D-view.png"/>
-            </p> 
-        </section>
-        <section>
-            <h3>The problem</h3>
-            <p>
-                The second version of my custom drone requires a video stream from  
-                the sky and some custom operations with it on the board. For this 
-                aim onboard computer should be installed. Upgrade to 21 - 38 TOPS 
-                class computer is planned to support full autonomous navigation. 
-            </p>
-            <p>
-                The problem is chosen computer is intended to work with official power 
-                supply adapter. It has an option to power it over another source 
-                connected over GPIO pins. However, connecting the battery and computer 
-                directly would require aligning the voltage and current levels. Also 
-                we have to protect from different kind of threats. That's exactly 
-                what official power adapter does. Therefore we just need to implement 
-                out own for powering the computer from the battery.   
-            </p>
-            <p>
-                Market research shown a decent DC-to-DC converter К480508 with 
-                supported voltage range to meet with all kind of batteries and 
-                required output 5V with up to 8A.  
-            </p>
-            <p>
-                What the market lacks of is a protection circuite to protect the 
-                computer from overvoltage, misplaced polarity, backfeeding and 
-                shortage. That's where idea of custom made pcb comes from. 
-            </p>
-        </section>
-        <section>
-            <h3>The solution</h3>
-            <h4>Design the principle electronic scheme</h4>
-            <div>
-                <p align="center">
-                    <img src="/assets/images/2026-09-26/the-principle-scheme.png"/>
-                </p> 
-                <p>
-                    We have 5V5A input and 5V5A output. In the connection between 
-                    them we have to add fuse to prevent overcurrent, diode to prevent 
-                    backfeeding and misplaced polarity.  
-                </p>
-                <p>
-                    However diode is not a good option here. The current has some small 
-                    voltage drop when passing through the diode. For 5V basic power 
-                    supply it is a important. Therefore MOSFET transistor is used 
-                    instead. Resistor on its gate regulates when it would be opened 
-                    and fuse on the source protects the circuit from overcurrent. 
-                    The principle of the scheme also prevents backfeedning.   
-                </p>
-                <p>
-                    Besides that such elements and dynamic work of the drone must 
-                    introduce noise in the current which should be filtered and 
-                    smoothed. For this aim LC filter over inductor and 
-                    chain of capacitors is used. Capacitors has diminishing 
-                    capacity size to filter out different frequencies of noise. 
-                    The important aspect is to keep the distance between capacitors 
-                    and inductor and capacitors and output as small as possible.    
-                </p>
-            </div>
-            <h4>Design the PCB</h4>
-            <div>
-                <p align="center">
-                    <img src="/assets/images/2026-09-26/the-pcb-design.png"/>
-                </p> 
-                <p>
-                    Kicad has been used to design both the principle scheme and PCB. 
-                    It allows automatic export of the scheme to PCB. It doesn't do 
-                    this perfect, so extra steps are required.  
-                </p>
-                <p>
-                    The first one is to choose footprints. Each element of the scheme 
-                    has its own form factor and its own pin configuration, it is 
-                    important to find a right one among rich library offers.  
-                </p>
-                <p>
-                    The next one is wiring. All elements should be connected to each 
-                    other. Two tricky things had been discovered here. 
-                </p>
-                <p>
-                    The first one is footprint pining. If the footprint has not 
-                    been chosen right, pins would have a different positions, 
-                    therefore you will get not correct wiring.  
-                </p>
-                <p>
-                    The second one is missed connection when the actual connection 
-                    you have made already. You observe the line between two 
-                    elements, but software claims there is no such connection. It 
-                    might be important because all data behind would be transferred  
-                    into different format for machine printing and it would operate 
-                    with actual data rather than with visual view. A mistake here 
-                    could lead to the wrong actual result. The solution for this 
-                    issue was to properly name all segments of the connection line. 
-                    Each segment between two elements of the scheme should has its 
-                    own name. 
-                </p>
-                <p>
-                    The last part is the size of connection line and ground line. 
-                    5A is quite strong current, it requires thick lines near 1.5mm 
-                    when general size is near 0.2 mm. In this scheme MOSFET pins 
-                    do not allow such thick lines to connect to without shortage 
-                    with another neighbor line. It had been solved by keeping 
-                    short thin lines directly to pins and inserting them into 
-                    thick line as soon as possible.  
-                </p>
-                <p>
-                    The ground zone for pcb like this is recommended to fill the 
-                    whole pcb surface. Kicad allows to do this automatically 
-                    emphasizing & separating from the GND connection lines and 
-                    components. 
-                </p>
-            </div>
-            <h4>Export in the gerber format for manufacturer</h4>
-            <div>
-                <p align="center">
-                    <img src="/assets/images/2026-09-26/manufacturer-gerber-view.png"/>
-                </p> 
-                <p>
-                    Manufacturer had asked me to prepare a gerber file. It seems like a 
-                    standard format for machines that produces pcb. Kicad allows 
-                    to do it too by choosing which layers to add to the final file.   
-                </p>
-            </div>
-            <h4>Search for manufacturer & purchase</h4>
-            <div>
-                <p>
-                    Market research shown several offers of custom pcb manufacturing, 
-                    as well as a local and as a proxy to chinese main companies. In the 
-                    process of negotiation I recognized the need to convert my 
-                    principle scheme to PCB design and export it to gerber format. 
-                    Meanwhile it was discovered geber has two formats -- legacy and 
-                    an actual one. Kicad used by default the modern one, but 
-                    manufacturer faced with difficulties to open it, so I had to 
-                    fallback to a legacy one. Something worth to remember when 
-                    dealing with producing vendor.      
-                </p>
-            </div>
-            <h4>Expecting result</h4>
-            <div>
-                <p align="center">
-                    <img src="/assets/images/2026-09-26/pcb-3D-view.png"/>
-                </p> 
-                <p>
-                    PCB project has been sent to the manufacturer to request 
-                    his price and production time. After chosen the best offer 
-                    the pcb should be finished. Later it will be verified with 
-                    lab power supply to confirm my calculations and installed on 
-                    the drone to confirm its work on the board in the sky.    
-                </p>
-            </div>
-        </section>
-        <section>
-            <h3>Related publications</h3>
-            <p>
-                <a href="https://gelassen.github.io/2024/01/21/electronics-tech-notes-part-1-getting-started.html">Electronics tech notes, part I: getting started</a> <br>
-                <a href="https://gelassen.github.io/2024/04/21/electronics-tech-notes-part-5.html">Electronics tech notes, part V: assembly of automation for pressure gauge and handmade replacement of the touch panel</a> <br>
-                <a href="https://gelassen.github.io/2021/02/27/broad-vs-narrow-specialisation.html">Broad vs Narrow specialisation</a> 
-            </p>
-        </section>
+  <article>
 
-    </article>
+    <section>
+      <h3>Executive summary</h3>
+      <p>
+        During the past week I designed a protective cascade for connecting an onboard computer to a drone.
+      </p>
+      <p>
+        The next version of my custom drone requires an onboard computer integrated into the rest of the electronics.  
+        Different subsystems that were never intended to work together by the manufacturer need additional protection.  
+        This custom PCB solves exactly that problem.
+      </p>
+      <p>
+        It is not a sophisticated board, but it is my first experience of designing a PCB to close the gap between project requirements and what the market currently offers.  
+        That is why the full production chain and technological process described here may be of interest to potential clients.
+      </p>
+      <p align="center">
+        <img src="/assets/images/2026-09-26/pcb-3D-view.png" />
+      </p>
+    </section>
+
+    <section>
+      <h3>The problem</h3>
+      <p>
+        The second version of my custom drone needs a video stream from the air and the ability to perform custom processing on board.  
+        An onboard computer is required for this. An upgrade to a 21–38 TOPS class computer is planned later to support fully autonomous navigation.
+      </p>
+      <p>
+        The chosen computer is designed to work with its official power adapter.  
+        It can also be powered through GPIO pins from an external source, but connecting the battery directly requires proper voltage and current matching as well as protection against several threats.  
+        The official adapter already provides these functions. Therefore I needed to implement an equivalent solution that would allow the computer to be powered safely from the drone’s battery.
+      </p>
+      <p>
+        Market research identified a suitable DC-DC converter (К480508) that supports a wide input voltage range covering all common battery types and delivers a stable 5 V output at up to 8 A.
+      </p>
+      <p>
+        What the market lacks is a compact protection circuit that guards the computer against overvoltage, reverse polarity, backfeeding and short circuits.  
+        This is the reason a custom PCB was required.
+      </p>
+    </section>
+
+    <section>
+      <h3>The solution</h3>
+
+      <h4>Design of the principle schematic</h4>
+      <div>
+        <p align="center">
+          <img src="/assets/images/2026-09-26/the-principle-scheme.png" />
+        </p>
+        <p>
+          The board has a 5 V / 5 A input and a 5 V / 5 A output.  
+          Between them a fuse protects against overcurrent, while a MOSFET is used instead of a diode to prevent reverse polarity and backfeeding.
+        </p>
+        <p>
+          A conventional diode was rejected because of its forward voltage drop.  
+          At 5 V this drop becomes significant.  
+          A MOSFET with a gate resistor provides a much lower voltage drop while still blocking reverse current.  
+          The fuse on the source side protects the circuit from overcurrent.  
+          The topology also inherently prevents backfeeding.
+        </p>
+        <p>
+          In addition, the switching elements and the dynamic nature of the drone introduce noise that must be filtered.  
+          An LC filter consisting of an inductor followed by a chain of capacitors with decreasing capacitance values is used to suppress noise across different frequency ranges.  
+          It is important to keep the physical distance between the inductor, the capacitors and the output as short as possible.
+        </p>
+      </div>
+
+      <h4>PCB design</h4>
+      <div>
+        <p align="center">
+          <img src="/assets/images/2026-09-26/the-pcb-design.png" />
+        </p>
+        <p>
+          Both the schematic and the PCB were designed in KiCad.  
+          The software can automatically transfer the schematic to the board layout, but the result is rarely perfect and several manual steps are required.
+        </p>
+        <p>
+          The first step is choosing the correct footprints.  
+          Every component has its own package and pin configuration, so selecting the right footprint from the library is critical.
+        </p>
+        <p>
+          The next challenge is routing.  
+          Two common problems appeared during this stage.
+        </p>
+        <p>
+          The first is incorrect footprint pin mapping.  
+          If the wrong footprint is assigned, the pins end up in the wrong physical positions and the connections become invalid.
+        </p>
+        <p>
+          The second is “phantom” connections.  
+          A visual line may exist between two pads, yet the software still reports that the nets are not connected.  
+          This is important because the manufacturing data is generated from the internal netlist, not from the visual representation.  
+          The reliable solution is to give every segment of a net its own explicit name.
+        </p>
+        <p>
+          Current-carrying tracks also require special attention.  
+          5 A is a relatively high current and needs tracks approximately 1.5 mm wide (compared with the usual 0.2 mm signal tracks).  
+          The MOSFET pins are too close together to accept such wide tracks directly.  
+          The workaround is to keep short thin tracks from the pins and then immediately expand them into the required wide copper.
+        </p>
+        <p>
+          For a board of this type it is recommended to fill the entire free area with a ground plane.  
+          KiCad can create this pour automatically while keeping the proper clearance from components and other nets.
+        </p>
+      </div>
+
+      <h4>Export to Gerber for manufacturing</h4>
+      <div>
+        <p align="center">
+          <img src="/assets/images/2026-09-26/manufacturer-gerber-view.png" />
+        </p>
+        <p>
+          The manufacturer requested Gerber files — the standard format used by PCB fabrication machines.  
+          KiCad can generate them; the only decision required is which layers to include in the final archive.
+        </p>
+      </div>
+
+      <h4>Manufacturer search and ordering</h4>
+      <div>
+        <p>
+          Several local and China-based PCB manufacturers were evaluated.  
+          During negotiations it became clear that the schematic had to be converted into a proper PCB layout and exported as Gerber files.  
+          It also turned out that Gerber exists in two variants — legacy and modern.  
+          KiCad defaults to the modern format, which the chosen manufacturer could not open reliably.  
+          Falling back to the legacy format solved the problem.  
+          This is a useful detail to remember when dealing with fabrication houses.
+        </p>
+      </div>
+
+      <h4>Expected result</h4>
+      <div>
+        <p align="center">
+          <img src="/assets/images/2026-09-26/pcb-3D-view.png" />
+        </p>
+        <p>
+          The project has been sent to the manufacturer for a quotation and production schedule.  
+          Once the best offer is selected, the boards will be produced.  
+          They will then be tested with a laboratory power supply to verify the calculations and later installed on the drone for final in-flight validation.
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <h3>Related publications</h3>
+      <p>
+        <a href="https://gelassen.github.io/2024/01/21/electronics-tech-notes-part-1-getting-started.html">Electronics tech notes, part I: getting started</a><br>
+        <a href="https://gelassen.github.io/2024/04/21/electronics-tech-notes-part-5.html">Electronics tech notes, part V: assembly of automation for pressure gauge and handmade replacement of the touch panel</a><br>
+        <a href="https://gelassen.github.io/2021/02/27/broad-vs-narrow-specialisation.html">Broad vs Narrow specialisation</a>
+      </p>
+    </section>
+
+  </article>
 </body>
 </html>
